@@ -1,0 +1,60 @@
+#include<bits/stdc++.h>
+using namespace std;
+int seqsearch(int a[],int k,int n){
+    for(int i=0;i<n;i++){
+        if(a[i]==k) return i;
+        if(a[i]>k) return -1;
+    }
+    return -1;
+}
+int binsearch(int a[],int key,int low,int high){
+    int mid=(low+high)/2;
+    if(a[mid]==key) return mid;
+    if(low==high-1) return -1;
+    if(a[mid]>key)
+        return binsearch(a,key,low,mid);
+    return binsearch(a,key,mid,high);
+}
+int indexseqsearch(int a[],int k,int n){
+    int st=-1,ed=-1;
+    for(int i=0;i<n;i+=5){
+        if(a[i]==k) return i;
+
+        else if(a[i]>k){
+            ed=i;
+            st=i-5;
+            break;
+        }
+    }
+    if(ed==-1){
+        if(a[n-1]>=k){
+            ed=n;
+            st=n-6;
+        }
+    }
+    if(st<0){
+        st=0;
+    }
+    for(int i=st;i<ed;i++){
+        if(a[i]==k) return i;
+        if(a[i]>k) return -2;
+    }
+    return -1;
+}
+int main(){
+    cout<<"Enter size of array: ";
+    int n;
+    cin>>n;
+    cout<<"Enter array (sorted order): "<<endl;
+    int a[n];
+    for(int i=0;i<n;i++) cin>>a[i];
+    while(1){
+        int key;
+        cout<<endl<<"enter key to search ";
+        cin>>key;
+        if(key==-1) break;
+        cout<<"sequential search: "<<seqsearch(a,key,n)<<endl;
+        cout<<"binary search: "<<binsearch(a,key,0,n)<<endl;
+        cout<<"indexed sequential search:" <<indexseqsearch(a,key,n)<<endl;
+    }
+}
