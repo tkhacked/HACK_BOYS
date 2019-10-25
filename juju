@@ -1,0 +1,104 @@
+#include<bits/stdc++.h>
+#define fastio ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL);
+#include <ext/pb_ds/assoc_container.hpp>
+using namespace __gnu_pbds;
+#define lli long long int
+#define ulli unsigned long long int
+#define ff first
+#define ss second
+#define mp make_pair
+#define pb push_back
+#define pf pop_front()
+#define lb lower_bound
+#define ub upper_bound
+#define bs binary_search
+#define loopl(i,a,b) for(lli i=a;i<b;i++) 
+#define loop(i,a,b) for(int i=a;i<b;i++)
+#define all(v) v.begin(), v.end()
+#define mod 1000000007
+#define mod2 1000000006
+#define inf 100000000000000000
+#define lld long double
+#define pll pair<long long int,long long int>
+#define pii pair<int,int>
+#define vll vector<lli>
+#define vii vector<int>
+#define is indexed_set
+#define eps 0.000001
+#define endl '\n'
+#define mo 998244353
+#define pi 3.141592653589793
+ 
+using namespace std ;
+ 
+typedef tree<lli,null_type,less<lli>,rb_tree_tag,
+tree_order_statistics_node_update> indexed_set;
+ 
+#define N 100000+5
+
+bool cmp(pll &a,pll &b)
+{
+	if(a.ff==b.ff) 
+		return (a.ss > b.ss);
+
+	else return (a.ff < b.ff); 
+}
+
+int main () 
+{
+/////////////////////////////////////
+    
+    fastio;
+    #ifndef ONLINE_JUDGE
+    freopen("input.txt", "rt", stdin);
+    freopen("output.txt", "wt", stdout);
+    #endif
+ 
+/////////////////////////////////////    
+ 	
+	lli t;
+	cin>>t;
+
+	while(t--)
+	{
+		lli n;
+		cin>>n;
+
+		multiset<lli> s;
+		map<lli,lli> m1;
+		map<lli,vll> m2;
+		loopl(i,0,n)
+		{
+			lli x;
+			cin>>x;
+			s.insert(x);
+			m2[x].pb(i+1);
+		}
+
+		lli curr = (1ll<<30);
+		vll ans;
+		loopl(i,0,n)
+		{
+			lli bit = 30;
+			while(bit>=0)
+			{
+				lli curr2 = curr&(~(1<<bit)) ;
+				auto it = s.lb(curr2);
+				if(it != s.end())
+					curr = curr2;
+
+				bit--;
+				curr = curr2;
+			}
+
+			ans.pb(m2[curr][m1[curr]]);
+			m1[curr]++;
+			auto rt = s.lb(curr);
+			s.erase(rt);
+		}
+
+		for(auto x:ans) cout<<x<<" ";
+			cout<<endl;
+
+	}
+}
